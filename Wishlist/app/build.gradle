@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+def project = rootProject.ext
+
+android {
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
+    defaultConfig {
+        applicationId "com.castrodev.wishlist"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile "com.android.support:appcompat-v7:${project.supportLibraryVersion}"
+    compile "com.android.support.constraint:constraint-layout:${project.constraintLayoutVersion}"
+
+    compile "com.google.firebase:firebase-database:${project.playServicesVersion}"
+    compile "com.google.firebase:firebase-auth:${project.playServicesVersion}"
+    compile "com.google.firebase:firebase-storage:${project.playServicesVersion}"
+    compile "com.google.firebase:firebase-messaging:${project.playServicesVersion}"
+    compile "com.google.firebase:firebase-config:${project.playServicesVersion}"
+    compile "com.firebaseui:firebase-ui-auth:${project.firebaseUiVersion}"
+
+    compile "com.squareup.picasso:picasso:${project.picassoVersion}"
+
+    testCompile "junit:junit:${project.junitVersion}"
+}
+apply plugin: 'com.google.gms.google-services'

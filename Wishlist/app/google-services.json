@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "503430646567",
+    "firebase_url": "https://wishlist-cc6ee.firebaseio.com",
+    "project_id": "wishlist-cc6ee",
+    "storage_bucket": "wishlist-cc6ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503430646567:android:5ff84d7bbbe9c01c",
+        "android_client_info": {
+          "package_name": "com.castrodev.wishlist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503430646567-p5m2id72a587e3qtghp43an45umiiaqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.castrodev.wishlist",
+            "certificate_hash": "359a5e1f6fe7d3a1224c662d3413d1ac504e5363"
+          }
+        },
+        {
+          "client_id": "503430646567-0ha6cijvpqf3avb95vtmaqcq56fl2v8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL6P4AeenQ2mAu9GAzaVQe00sQTEnGbAE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503430646567-0ha6cijvpqf3avb95vtmaqcq56fl2v8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
