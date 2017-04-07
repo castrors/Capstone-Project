@@ -2,4 +2,10 @@
     <string name="app_name">Wishlist</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
+    <string name="what">What?</string>
+    <string name="when">When?</string>
+    <string name="why">Why?</string>
+    <string name="where">Where?</string>
+    <string name="how_much">How much?</string>
+    <string name="observation">Observation</string>
 </resources>
