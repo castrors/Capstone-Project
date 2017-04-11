@@ -34,10 +34,11 @@ ext {
     buildToolsVersion = '25.0.2'
 
     // App dependencies
-    supportLibraryVersion = '25.1.1'
+    supportLibraryVersion = '25.3.0'
     playServicesVersion = '10.2.0'
     firebaseUiVersion = '1.2.0'
     junitVersion = '4.12'
     constraintLayoutVersion = '1.0.1'
     picassoVersion = '2.5.2'
+    butterknifeVersion = '8.5.1'
 }

@@ -8,4 +8,9 @@
     <string name="where">Where?</string>
     <string name="how_much">How much?</string>
     <string name="observation">Observation</string>
+    <string name="what_error">What error message!</string>
+    <string name="when_error">When error message!</string>
+    <string name="why_error">Why error message!</string>
+    <string name="where_error">Where error message!</string>
+    <string name="how_much_error">How much error message!</string>
 </resources>
