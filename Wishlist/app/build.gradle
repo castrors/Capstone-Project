@@ -25,19 +25,16 @@ dependencies {
     compile "com.android.support:design:${project.supportLibraryVersion}"
     compile "com.android.support:appcompat-v7:${project.supportLibraryVersion}"
     compile "com.android.support.constraint:constraint-layout:${project.constraintLayoutVersion}"
-
     compile "com.google.firebase:firebase-database:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-auth:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-storage:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-messaging:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-config:${project.playServicesVersion}"
     compile "com.firebaseui:firebase-ui-auth:${project.firebaseUiVersion}"
-
     compile "com.squareup.picasso:picasso:${project.picassoVersion}"
-
     compile "com.jakewharton:butterknife:${project.butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${project.butterknifeVersion}"
-
     testCompile "junit:junit:${project.junitVersion}"
+    testCompile "org.mockito:mockito-core:${project.mockitoVersion}"
 }
 apply plugin: 'com.google.gms.google-services'
