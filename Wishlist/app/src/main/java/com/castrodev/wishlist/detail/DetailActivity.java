@@ -25,6 +25,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,8 +56,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     FloatingActionButton fabCheck;
 
     private DetailPresenter presenter;
-
-    private GoogleApiClient googleApiClient;
+    private Location locationSelected;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference messagesDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +69,15 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         fabCheck.setOnClickListener(this);
         presenter = new DetailPresenterImpl(this);
 
-        googleApiClient = new GoogleApiClient
+        GoogleApiClient googleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        messagesDatabaseReference = firebaseDatabase.getReference().child("wishes");
 
     }
 
@@ -129,8 +135,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 tilWhat.getEditText().getText().toString()
                 , tilWhen.getEditText().getText().toString()
                 , tilWhy.getEditText().getText().toString()
-                , tilWhere.getEditText().getText().toString()
-                , tilHowMuch.getEditText().getText().toString());
+                , locationSelected
+                , tilHowMuch.getEditText().getText().toString()
+                , tilObservation.getEditText().getText().toString());
     }
 
     @OnClick({R.id.til_when, R.id.iv_when})
@@ -179,8 +186,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
-                Location location = new Location((String) place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
-                tilWhere.getEditText().setText(location.getName());
+                locationSelected = new Location((String) place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
+                tilWhere.getEditText().setText(locationSelected.getName());
             }
         }
     }

@@ -2,6 +2,7 @@ package com.castrodev.wishlist;
 
 import com.castrodev.wishlist.detail.DetailPresenterImpl;
 import com.castrodev.wishlist.detail.DetailView;
+import com.castrodev.wishlist.model.Location;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,14 +31,14 @@ public class DetailPresenterTest {
 
     @Test
     public void checkRegister_validData() {
-        presenter.validateData("Playstation 4", "24/04/2017", "1", "Ponta Porã", "1250");
+        presenter.validateData("Playstation 4", "24/04/2017", "I need it quickly", new Location("Ponta Porã", 0.0, 0.0), "1250", "observation");
         verify(view).showProgress();
         verify(view).navigateToHome();
     }
 
     @Test
     public void checkRegister_emptyWhat() {
-        presenter.validateData("", "24/04/2017", "1", "Ponta Porã", "1250");
+        presenter.validateData("", "24/04/2017", "I need it quickly", new Location("Ponta Porã", 0.0, 0.0), "1250", "observation");
         verify(view).showProgress();
         verify(view).hideProgress();
         verify(view).setWhatError();
@@ -45,7 +46,7 @@ public class DetailPresenterTest {
 
     @Test
     public void checkRegister_emptyWhen() {
-        presenter.validateData("Playstation 4", "", "1", "Ponta Porã", "1250");
+        presenter.validateData("Playstation 4", "", "I need it quickly", new Location("Ponta Porã", 0.0, 0.0), "1250", "observation");
         verify(view).showProgress();
         verify(view).hideProgress();
         verify(view).setWhenError();
@@ -53,7 +54,7 @@ public class DetailPresenterTest {
 
     @Test
     public void checkRegister_emptyWhy() {
-        presenter.validateData("Playstation 4", "24/04/2017", "", "Ponta Porã", "1250");
+        presenter.validateData("Playstation 4", "24/04/2017", "", new Location("Ponta Porã", 0.0, 0.0), "1250", "observation");
         verify(view).showProgress();
         verify(view).hideProgress();
         verify(view).setWhyError();
@@ -61,7 +62,7 @@ public class DetailPresenterTest {
 
     @Test
     public void checkRegister_emptyWhere() {
-        presenter.validateData("Playstation 4", "24/04/2017", "1", "", "1250");
+        presenter.validateData("Playstation 4", "24/04/2017", "I need it quickly", new Location("", 0.0, 0.0), "1250", "observation");
         verify(view).showProgress();
         verify(view).hideProgress();
         verify(view).setWhereError();
@@ -69,7 +70,7 @@ public class DetailPresenterTest {
 
     @Test
     public void checkRegister_emptyHowMuch() {
-        presenter.validateData("Playstation 4", "24/04/2017", "1", "Ponta Porã", "");
+        presenter.validateData("Playstation 4", "24/04/2017", "I need it quickly", new Location("Ponta Porã", 0.0, 0.0), "", "observation");
         verify(view).showProgress();
         verify(view).hideProgress();
         verify(view).setHowMuchError();

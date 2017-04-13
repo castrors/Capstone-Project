@@ -1,5 +1,12 @@
 package com.castrodev.wishlist.detail;
 
+import com.castrodev.wishlist.model.Location;
+import com.castrodev.wishlist.model.Wish;
+import com.castrodev.wishlist.utils.DateUtils;
+import com.castrodev.wishlist.utils.WishUtils;
+
+import static com.castrodev.wishlist.detail.DetailActivity.FORMAT;
+
 /**
  * Created by rodrigocastro on 07/04/17.
  */
@@ -15,12 +22,12 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     }
 
     @Override
-    public void validateData(String what, String when, String why, String where, String howMuch) {
+    public void validateData(String what, String when, String why, Location where, String howMuch, String observation) {
         if (detailView != null) {
             detailView.showProgress();
         }
-
-        detailInteractor.save(what, when, why, where, howMuch, this);
+        Wish wish = new Wish(what, DateUtils.getDate(when, FORMAT), WishUtils.getPriority(why), where, WishUtils.getValue(howMuch), observation);
+        detailInteractor.save(wish, this);
     }
 
     @Override
@@ -71,8 +78,15 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     @Override
     public void onSuccess() {
         if (detailView != null) {
+            save();
+
             detailView.navigateToHome();
         }
+    }
+
+    private void save() {
+
+//        mMessagesDatabaseReference.push().setValue(friendlyMessage);
     }
 }
 

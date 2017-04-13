@@ -1,5 +1,6 @@
 package com.castrodev.wishlist.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,5 +19,21 @@ public class DateUtils {
         SimpleDateFormat simpleDate = new SimpleDateFormat(format, Locale.getDefault());
 
         return simpleDate.format(date);
+    }
+
+    public static Date getDate(String when, String format) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.getDefault());
+        try {
+            return simpleDateFormat.parse(when);
+        } catch (ParseException e) {
+            return new Date(0);
+        }
+    }
+
+    public static boolean isDatePast(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+        return date.getTime() - currentDate.getTime() < 0;
     }
 }

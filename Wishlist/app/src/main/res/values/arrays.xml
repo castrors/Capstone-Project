@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="priority_array" >
-        <item>I need it quickly</item>
-        <item>I can wait some days</item>
-        <item>Maybe someday</item>
-    </string-array>
-</resources>

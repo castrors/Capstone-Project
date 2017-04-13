@@ -3,7 +3,6 @@ package com.castrodev.wishlist.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +15,8 @@ import com.castrodev.wishlist.R;
 
 public class PriorityPickerFragment extends DialogFragment
         implements DialogInterface.OnClickListener {
+
+    public static String[] priorityArray = {"I need it quickly", "I can wait some days", "Maybe someday"};
 
 
     public interface OnPrioritySelectedListener {
@@ -40,7 +41,7 @@ public class PriorityPickerFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.pick_priority)
-                .setItems(R.array.priority_array, this);
+                .setItems(priorityArray, this);
         return builder.create();
     }
 
@@ -48,9 +49,7 @@ public class PriorityPickerFragment extends DialogFragment
     @Override
     public void onClick(DialogInterface dialog, int selected) {
         if (listener != null) {
-            Resources res = getResources();
-            String[] priority = res.getStringArray(R.array.priority_array);
-            listener.onPrioritySelected(priority[selected]);
+            listener.onPrioritySelected(priorityArray[selected]);
         }
     }
 }

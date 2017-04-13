@@ -1,5 +1,7 @@
 package com.castrodev.wishlist.detail;
 
+import com.castrodev.wishlist.model.Wish;
+
 /**
  * Created by rodrigocastro on 07/04/17.
  */
@@ -20,6 +22,6 @@ public interface DetailInteractor {
         void onSuccess();
     }
 
-    void save(String what, String when, String why, String where, String howMuch, OnSaveFinishedListener listener);
+    void save(Wish wish, OnSaveFinishedListener listener);
 
 }
