@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.castrodev.wishlist">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +18,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".detail.DetailActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAH2iD6ytWznYTEy0II1VNqXeqSqJHYY6w" />
     </application>
 
 </manifest>

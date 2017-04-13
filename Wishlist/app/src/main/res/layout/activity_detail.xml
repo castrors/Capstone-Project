@@ -71,14 +71,15 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/til_why"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/why" />
                 </android.support.design.widget.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/iv_why"
                     android:layout_width="wrap_content"
@@ -88,16 +89,30 @@
                     android:src="@drawable/ic_priority" />
             </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_where"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_where"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/where" />
+                </android.support.design.widget.TextInputLayout>
+                <ImageView
+                    android:id="@+id/iv_where"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/where" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_location" />
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_how_much"

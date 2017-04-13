@@ -42,4 +42,5 @@ ext {
     picassoVersion = '2.5.2'
     butterknifeVersion = '8.5.1'
     mockitoVersion = '1.10.19'
+    multidexVersion= '1.0.1'
 }

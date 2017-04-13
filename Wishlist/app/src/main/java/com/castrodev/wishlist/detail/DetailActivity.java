@@ -3,6 +3,7 @@ package com.castrodev.wishlist.detail;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -13,18 +14,28 @@ import android.widget.ProgressBar;
 
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.main.MainActivity;
+import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.utils.DateUtils;
 import com.castrodev.wishlist.view.DatePickerFragment;
 import com.castrodev.wishlist.view.PriorityPickerFragment;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener
-        , DatePickerDialog.OnDateSetListener, PriorityPickerFragment.OnPrioritySelectedListener {
+        , DatePickerDialog.OnDateSetListener, PriorityPickerFragment.OnPrioritySelectedListener, GoogleApiClient.OnConnectionFailedListener {
+
 
     public static final String FORMAT = "dd/MM/yyyy";
+    int PLACE_PICKER_REQUEST = 1;
     @BindView(R.id.progress)
     ProgressBar progressBar;
     @BindView(R.id.til_what)
@@ -44,6 +55,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     private DetailPresenter presenter;
 
+    private GoogleApiClient googleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +65,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
         fabCheck.setOnClickListener(this);
         presenter = new DetailPresenterImpl(this);
+
+        googleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
 
     }
 
@@ -125,6 +145,20 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         priorityPickerFragment.show(getSupportFragmentManager(), "priorityPicker");
     }
 
+    @OnClick({R.id.til_where, R.id.iv_where})
+    public void onWhereClicked(View v) {
+
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+        try {
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String selectedDate = DateUtils.getDateSelectedWithFormat(year, month, dayOfMonth, FORMAT);
@@ -136,6 +170,21 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         tilWhy.getEditText().setText(priority);
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                Location location = new Location((String) place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
+                tilWhere.getEditText().setText(location.getName());
+            }
+        }
+    }
+
     private void clearErrors() {
         tilWhat.setErrorEnabled(false);
         tilWhen.setErrorEnabled(false);
@@ -144,4 +193,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         tilHowMuch.setErrorEnabled(false);
 
     }
+
+
 }

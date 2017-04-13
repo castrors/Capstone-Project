@@ -30,9 +30,11 @@ dependencies {
     compile "com.google.firebase:firebase-storage:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-messaging:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-config:${project.playServicesVersion}"
+    compile "com.google.android.gms:play-services-places:${project.playServicesVersion}"
     compile "com.firebaseui:firebase-ui-auth:${project.firebaseUiVersion}"
     compile "com.squareup.picasso:picasso:${project.picassoVersion}"
     compile "com.jakewharton:butterknife:${project.butterknifeVersion}"
+
     annotationProcessor "com.jakewharton:butterknife-compiler:${project.butterknifeVersion}"
     testCompile "junit:junit:${project.junitVersion}"
     testCompile "org.mockito:mockito-core:${project.mockitoVersion}"
