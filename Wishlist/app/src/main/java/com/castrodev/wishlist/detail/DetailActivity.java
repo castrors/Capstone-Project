@@ -1,21 +1,30 @@
 package com.castrodev.wishlist.detail;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.main.MainActivity;
+import com.castrodev.wishlist.utils.DateUtils;
+import com.castrodev.wishlist.view.DatePickerFragment;
+import com.castrodev.wishlist.view.PriorityPickerFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener
+        , DatePickerDialog.OnDateSetListener, PriorityPickerFragment.OnPrioritySelectedListener {
 
+    public static final String FORMAT = "dd/MM/yyyy";
     @BindView(R.id.progress)
     ProgressBar progressBar;
     @BindView(R.id.til_what)
@@ -102,6 +111,29 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 , tilWhy.getEditText().getText().toString()
                 , tilWhere.getEditText().getText().toString()
                 , tilHowMuch.getEditText().getText().toString());
+    }
+
+    @OnClick({R.id.til_when, R.id.iv_when})
+    public void onWhenClicked(View v) {
+        DialogFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @OnClick({R.id.til_why, R.id.iv_why})
+    public void onWhyClicked(View v) {
+        DialogFragment priorityPickerFragment = new PriorityPickerFragment();
+        priorityPickerFragment.show(getSupportFragmentManager(), "priorityPicker");
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String selectedDate = DateUtils.getDateSelectedWithFormat(year, month, dayOfMonth, FORMAT);
+        tilWhen.getEditText().setText(selectedDate);
+    }
+
+    @Override
+    public void onPrioritySelected(String priority) {
+        tilWhy.getEditText().setText(priority);
     }
 
     private void clearErrors() {

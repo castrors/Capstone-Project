@@ -13,4 +13,5 @@
     <string name="why_error">Why error message!</string>
     <string name="where_error">Where error message!</string>
     <string name="how_much_error">How much error message!</string>
+    <string name="pick_priority">Why i need it?</string>
 </resources>
