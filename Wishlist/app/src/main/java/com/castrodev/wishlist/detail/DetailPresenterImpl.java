@@ -2,10 +2,8 @@ package com.castrodev.wishlist.detail;
 
 import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
-import com.castrodev.wishlist.utils.DateUtils;
-import com.castrodev.wishlist.utils.WishUtils;
-
-import static com.castrodev.wishlist.detail.DetailActivity.FORMAT;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by rodrigocastro on 07/04/17.
@@ -15,7 +13,6 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
 
     private DetailView detailView;
     private DetailInteractor detailInteractor;
-    private Wish wish;
 
     public DetailPresenterImpl(DetailView detailView) {
         this.detailView = detailView;
@@ -27,8 +24,8 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
         if (detailView != null) {
             detailView.showProgress();
         }
-        wish = new Wish(what, DateUtils.getDate(when, FORMAT), WishUtils.getPriority(why), where, WishUtils.getValue(howMuch), observation);
-        detailInteractor.save(wish, this);
+
+        detailInteractor.validate(what, when, why, where, howMuch, observation, this);
     }
 
     @Override
@@ -77,17 +74,17 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     }
 
     @Override
-    public void onSuccess() {
+    public void onValidationSuccess(Wish wish) {
         if (detailView != null) {
-            save();
-
+            save(wish);
             detailView.navigateToHome();
         }
     }
 
-    private void save() {
-
-//        mMessagesDatabaseReference.push().setValue(friendlyMessage);
+    private void save(Wish wish) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child("wishes");
+        wishesDatabaseReference.push().setValue(wish);
     }
 }
 

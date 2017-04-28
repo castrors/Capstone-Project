@@ -25,8 +25,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,8 +55,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     private DetailPresenter presenter;
     private Location locationSelected;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference messagesDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +71,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        messagesDatabaseReference = firebaseDatabase.getReference().child("wishes");
 
     }
 

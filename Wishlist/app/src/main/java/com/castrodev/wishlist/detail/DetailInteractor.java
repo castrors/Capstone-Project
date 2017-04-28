@@ -1,5 +1,6 @@
 package com.castrodev.wishlist.detail;
 
+import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
 
 /**
@@ -19,9 +20,8 @@ public interface DetailInteractor {
 
         void onHowMuchError();
 
-        void onSuccess();
+        void onValidationSuccess(Wish wish);
     }
 
-    void save(Wish wish, OnSaveFinishedListener listener);
-
+    void validate(String what, String when, String why, Location where, String howMuch, String observation, OnSaveFinishedListener detailPresenter);
 }
