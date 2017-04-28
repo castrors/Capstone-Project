@@ -10,7 +10,7 @@ import android.text.TextUtils;
 public class DetailInteractorImpl implements DetailInteractor {
 
     @Override
-    public void save(String what, String when, String why, String where, String howMuch, OnSaveFinishedListener listener) {
+    public void save(String what, String when, String why, String where, String howMuch, String observation, OnSaveFinishedListener listener) {
         boolean error = false;
         if (TextUtils.isEmpty(what)) {
             listener.onWhatError();

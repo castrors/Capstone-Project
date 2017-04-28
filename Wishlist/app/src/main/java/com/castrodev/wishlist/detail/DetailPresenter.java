@@ -5,7 +5,7 @@ package com.castrodev.wishlist.detail;
  */
 
 public interface DetailPresenter {
-    void validateData(String what, String when, String why, String where, String howMuch);
+    void validateData(String what, String when, String why, String where, String howMuch, String observation);
 
     void onDestroy();
 }

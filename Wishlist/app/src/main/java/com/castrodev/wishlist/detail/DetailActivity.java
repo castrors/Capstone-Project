@@ -101,7 +101,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 , tilWhen.getEditText().getText().toString()
                 , tilWhy.getEditText().getText().toString()
                 , tilWhere.getEditText().getText().toString()
-                , tilHowMuch.getEditText().getText().toString());
+                , tilHowMuch.getEditText().getText().toString()
+                , tilObservation.getEditText().getText().toString());
     }
 
     private void clearErrors() {

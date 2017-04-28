@@ -15,12 +15,12 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     }
 
     @Override
-    public void validateData(String what, String when, String why, String where, String howMuch) {
+    public void validateData(String what, String when, String why, String where, String howMuch, String observation) {
         if (detailView != null) {
             detailView.showProgress();
         }
 
-        detailInteractor.save(what, when, why, where, howMuch, this);
+        detailInteractor.save(what, when, why, where, howMuch, observation, this);
     }
 
     @Override
