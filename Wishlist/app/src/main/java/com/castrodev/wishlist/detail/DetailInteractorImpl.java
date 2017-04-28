@@ -1,7 +1,8 @@
 package com.castrodev.wishlist.detail;
 
-import android.text.TextUtils;
 
+import com.castrodev.wishlist.model.Wish;
+import com.castrodev.wishlist.utils.WishUtils;
 
 /**
  * Created by rodrigocastro on 07/04/17.
@@ -10,32 +11,32 @@ import android.text.TextUtils;
 public class DetailInteractorImpl implements DetailInteractor {
 
     @Override
-    public void save(String what, String when, String why, String where, String howMuch, String observation, OnSaveFinishedListener listener) {
+    public void save(Wish wish, OnSaveFinishedListener listener) {
         boolean error = false;
-        if (TextUtils.isEmpty(what)) {
+        if (WishUtils.isEmpty(wish.getName())) {
             listener.onWhatError();
             error = true;
             return;
         }
-        if (TextUtils.isEmpty(when)) {
+        if (!WishUtils.isValidDate(wish.getDueDate())) {
             listener.onWhenError();
             error = true;
             return;
         }
 
-        if (TextUtils.isEmpty(why)) {
+        if (!WishUtils.isPriorityValid(wish.getPriority())) {
             listener.onWhyError();
             error = true;
             return;
         }
 
-        if (TextUtils.isEmpty(where)) {
+        if (!WishUtils.isLocationValid(wish.getLocation())) {
             listener.onWhereError();
             error = true;
             return;
         }
 
-        if (TextUtils.isEmpty(howMuch)) {
+        if (!WishUtils.isValueValid(wish.getValue())) {
             listener.onHowMuchError();
             error = true;
             return;
@@ -45,4 +46,6 @@ public class DetailInteractorImpl implements DetailInteractor {
             listener.onSuccess();
         }
     }
+
+
 }
