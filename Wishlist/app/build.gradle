@@ -24,7 +24,7 @@ android {
 dependencies {
     compile "com.android.support:design:${project.supportLibraryVersion}"
     compile "com.android.support:appcompat-v7:${project.supportLibraryVersion}"
-    compile "com.android.support.constraint:constraint-layout:${project.constraintLayoutVersion}"
+    compile "com.android.support:recyclerview-v7:${project.supportLibraryVersion}"
     compile "com.google.firebase:firebase-database:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-auth:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-storage:${project.playServicesVersion}"
@@ -38,5 +38,6 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${project.butterknifeVersion}"
     testCompile "junit:junit:${project.junitVersion}"
     testCompile "org.mockito:mockito-core:${project.mockitoVersion}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'
