@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,15 +17,17 @@ import android.widget.Toast;
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.detail.DetailActivity;
 import com.castrodev.wishlist.model.Wish;
+import com.castrodev.wishlist.viewholder.WishViewHolder;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Query;
 
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private MainPresenterImpl presenter;
+    private FirebaseRecyclerAdapter<Wish, WishViewHolder> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         presenter = new MainPresenterImpl(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
+
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -162,17 +166,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void setItems(List<Wish> wishes) {
+    public void setItems(Query wishesQuery) {
 //        errorView.setVisibility(View.GONE);
-//        MainAdapter adapter = (MainAdapter) recyclerView.getAdapter();
-//        if (adapter == null) {
-            LinearLayoutManager linearLayoutManager =
-                    new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(new MainAdapter(wishes, presenter));
-//        } else {
-//            adapter.concatenateDataSet(redditObject);
-//        }
+        StaggeredGridLayoutManager sglm =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(sglm);
+        mAdapter = new MainAdapter(presenter, wishesQuery);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override

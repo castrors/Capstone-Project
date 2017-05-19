@@ -16,6 +16,9 @@ public class Wish {
     private Double value;
     private String observation;
 
+    public Wish() {
+    }
+
     public Wish(String name, Date dueDate, Integer priority, Location location, Double value, String observation) {
         this.name = name;
         this.dueDate = dueDate;

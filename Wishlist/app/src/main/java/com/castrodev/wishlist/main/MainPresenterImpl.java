@@ -1,8 +1,7 @@
 package com.castrodev.wishlist.main;
 
-import com.castrodev.wishlist.model.Wish;
-
-import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 /**
  * Created by rodrigocastro on 10/05/17.
@@ -31,9 +30,9 @@ public class MainPresenterImpl implements MainPresenter, MainInteractor.OnFinish
     }
 
     @Override
-    public void onItemClicked(Wish wish) {
+    public void onItemClicked(DatabaseReference wish) {
         if (mainView != null) {
-            mainView.goToDetailActivity(wish);
+//            mainView.goToDetailActivity(wish);
         }
     }
 
@@ -43,7 +42,7 @@ public class MainPresenterImpl implements MainPresenter, MainInteractor.OnFinish
     }
 
     @Override
-    public void onSuccess(List<Wish> items) {
+    public void onSuccess(Query items) {
         if (mainView != null) {
             mainView.hideProgress();
             mainView.setItems(items);

@@ -32,6 +32,7 @@ dependencies {
     compile "com.google.firebase:firebase-config:${project.playServicesVersion}"
     compile "com.google.android.gms:play-services-places:${project.playServicesVersion}"
     compile "com.firebaseui:firebase-ui-auth:${project.firebaseUiVersion}"
+    compile "com.firebaseui:firebase-ui-database:${project.firebaseUiVersion}"
     compile "com.squareup.picasso:picasso:${project.picassoVersion}"
     compile "com.jakewharton:butterknife:${project.butterknifeVersion}"
 

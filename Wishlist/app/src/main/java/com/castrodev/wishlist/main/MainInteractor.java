@@ -1,8 +1,6 @@
 package com.castrodev.wishlist.main;
 
-import com.castrodev.wishlist.model.Wish;
-
-import java.util.List;
+import com.google.firebase.database.Query;
 
 /**
  * Created by rodrigocastro on 28/04/17.
@@ -11,7 +9,7 @@ import java.util.List;
 public interface MainInteractor {
 
     interface OnFinishedListener {
-        void onSuccess(List<Wish> items);
+        void onSuccess(Query itemsQuery);
         void onError();
 
     }

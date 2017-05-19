@@ -1,8 +1,7 @@
 package com.castrodev.wishlist.main;
 
 import com.castrodev.wishlist.model.Wish;
-
-import java.util.List;
+import com.google.firebase.database.Query;
 
 /**
  * Created by rodrigocastro on 28/04/17.
@@ -11,7 +10,7 @@ import java.util.List;
 public interface MainView {
     void showProgress();
     void hideProgress();
-    void setItems(List<Wish> wishes);
+    void setItems(Query wishesQuery);
     void goToDetailActivity(Wish wish);
     void showDefaultError();
     void showNetworkError();
