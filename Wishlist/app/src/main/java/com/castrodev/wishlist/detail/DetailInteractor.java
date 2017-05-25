@@ -23,5 +23,5 @@ public interface DetailInteractor {
         void onValidationSuccess(Wish wish);
     }
 
-    void validate(String what, String when, String why, Location where, String howMuch, String observation, OnSaveFinishedListener detailPresenter);
+    void validate(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl, OnSaveFinishedListener detailPresenter);
 }

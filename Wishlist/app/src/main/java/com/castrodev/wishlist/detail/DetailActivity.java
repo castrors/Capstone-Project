@@ -1,21 +1,31 @@
 package com.castrodev.wishlist.detail;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.main.MainActivity;
 import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.utils.DateUtils;
+import com.castrodev.wishlist.utils.FileUtil;
 import com.castrodev.wishlist.view.DatePickerFragment;
 import com.castrodev.wishlist.view.PriorityPickerFragment;
 import com.google.android.gms.common.ConnectionResult;
@@ -25,6 +35,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +48,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
 
     public static final String FORMAT = "dd/MM/yyyy";
-    int PLACE_PICKER_REQUEST = 1;
+    private static final int PLACE_PICKER_REQUEST = 1;
+    private static final int PHOTO_PICKER_REQUEST = 2;
+
     @BindView(R.id.progress)
     ProgressBar progressBar;
     @BindView(R.id.til_what)
@@ -52,9 +67,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     TextInputLayout tilObservation;
     @BindView(R.id.fab_check)
     FloatingActionButton fabCheck;
+    @BindView(R.id.iv_photo)
+    ImageView ivPhoto;
 
     private DetailPresenter presenter;
     private Location locationSelected;
+    private Uri imageUri;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +149,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 , tilWhy.getEditText().getText().toString()
                 , locationSelected
                 , tilHowMuch.getEditText().getText().toString()
-                , tilObservation.getEditText().getText().toString());
+                , tilObservation.getEditText().getText().toString()
+                , "");
     }
 
     @OnClick({R.id.til_when, R.id.iv_when})
@@ -159,6 +179,32 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         }
     }
 
+    @OnClick(R.id.iv_photo)
+    public void onPhotoClicked(View v) {
+        if (!isStoragePermissionGranted(this)) {
+            requestStoragePermission(this);
+        } else {
+            pickPhoto();
+        }
+    }
+
+    private void pickPhoto() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PHOTO_PICKER_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickPhoto();
+            } else {
+                Log.e("", "Erro permissão");
+            }
+        }
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String selectedDate = DateUtils.getDateSelectedWithFormat(year, month, dayOfMonth, FORMAT);
@@ -176,11 +222,21 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(this, data);
-                locationSelected = new Location((String) place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
-                tilWhere.getEditText().setText(locationSelected.getName());
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PLACE_PICKER_REQUEST:
+                    Place place = PlacePicker.getPlace(this, data);
+                    locationSelected = new Location((String) place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
+                    tilWhere.getEditText().setText(locationSelected.getName());
+                    break;
+                case PHOTO_PICKER_REQUEST:
+                    final Uri uri = data.getData();
+                    final File file = FileUtil.getFileByPath(this, uri);
+                    Picasso.with(this)
+                            .load(file)
+                            .error(R.drawable.ic_photo_camera)
+                            .into(ivPhoto);
+                    break;
             }
         }
     }
@@ -194,5 +250,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     }
 
+    public static boolean isStoragePermissionGranted(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void requestStoragePermission(Context context) {
+        ActivityCompat.requestPermissions((Activity) context,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+    }
 
 }

@@ -15,8 +15,8 @@ import static com.castrodev.wishlist.detail.DetailActivity.FORMAT;
 public class DetailInteractorImpl implements DetailInteractor {
 
     @Override
-    public void validate(String what, String when, String why, Location where, String howMuch, String observation, OnSaveFinishedListener listener) {
-        Wish wish = new Wish(what, DateUtils.getDate(when, FORMAT), WishUtils.getPriority(why), where, WishUtils.getValue(howMuch), observation);
+    public void validate(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl, OnSaveFinishedListener listener) {
+        Wish wish = new Wish(what, DateUtils.getDate(when, FORMAT), WishUtils.getPriority(why), where, WishUtils.getValue(howMuch), observation, photoUrl);
 
         if (WishUtils.isEmpty(wish.getName())) {
             listener.onWhatError();

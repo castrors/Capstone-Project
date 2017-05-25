@@ -15,17 +15,19 @@ public class Wish {
     private Location location;
     private Double value;
     private String observation;
+    private String photoUrl;
 
     public Wish() {
     }
 
-    public Wish(String name, Date dueDate, Integer priority, Location location, Double value, String observation) {
+    public Wish(String name, Date dueDate, Integer priority, Location location, Double value, String observation, String Photo) {
         this.name = name;
         this.dueDate = dueDate;
         this.priority = priority;
         this.location = location;
         this.value = value;
         this.observation = observation;
+        this.photoUrl = photoUrl;
     }
 
     public String getName() {
@@ -74,5 +76,13 @@ public class Wish {
 
     public void setObservation(String observation) {
         this.observation = observation;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

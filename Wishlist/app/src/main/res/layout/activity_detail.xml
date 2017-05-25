@@ -19,6 +19,8 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:src="@drawable/ic_photo_camera"
+                android:padding="56dp"
                 android:background="@android:color/holo_blue_bright" />
 
             <android.support.design.widget.TextInputLayout

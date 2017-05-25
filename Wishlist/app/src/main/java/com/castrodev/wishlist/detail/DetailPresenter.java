@@ -7,7 +7,7 @@ import com.castrodev.wishlist.model.Location;
  */
 
 public interface DetailPresenter {
-    void validateData(String what, String when, String why, Location where, String howMuch, String observation);
+    void validateData(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl);
 
     void onDestroy();
 }
