@@ -1,5 +1,9 @@
 package com.castrodev.wishlist.main;
 
+import com.castrodev.wishlist.model.Wish;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -30,9 +34,35 @@ public class MainPresenterImpl implements MainPresenter, MainInteractor.OnFinish
     }
 
     @Override
-    public void onItemClicked(DatabaseReference wish) {
+    public void onItemClicked(DatabaseReference databaseReference) {
         if (mainView != null) {
-//            mainView.goToDetailActivity(wish);
+            databaseReference.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Wish wish = dataSnapshot.getValue(Wish.class);
+                    mainView.goToDetailActivity(wish);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 

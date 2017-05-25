@@ -1,13 +1,16 @@
 package com.castrodev.wishlist.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by rodrigocastro on 07/04/17.
  */
 
-public class Wish {
+public class Wish implements Parcelable {
 
     private String name;
     private Date dueDate;
@@ -97,4 +100,45 @@ public class Wish {
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeLong(this.dueDate != null ? this.dueDate.getTime() : -1);
+        dest.writeValue(this.priority);
+        dest.writeParcelable(this.location, flags);
+        dest.writeValue(this.value);
+        dest.writeString(this.observation);
+        dest.writeString(this.photoUrl);
+        dest.writeString(this.photoPath);
+    }
+
+    protected Wish(Parcel in) {
+        this.name = in.readString();
+        long tmpDueDate = in.readLong();
+        this.dueDate = tmpDueDate == -1 ? null : new Date(tmpDueDate);
+        this.priority = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.location = in.readParcelable(Location.class.getClassLoader());
+        this.value = (Double) in.readValue(Double.class.getClassLoader());
+        this.observation = in.readString();
+        this.photoUrl = in.readString();
+        this.photoPath = in.readString();
+    }
+
+    public static final Creator<Wish> CREATOR = new Creator<Wish>() {
+        @Override
+        public Wish createFromParcel(Parcel source) {
+            return new Wish(source);
+        }
+
+        @Override
+        public Wish[] newArray(int size) {
+            return new Wish[size];
+        }
+    };
 }

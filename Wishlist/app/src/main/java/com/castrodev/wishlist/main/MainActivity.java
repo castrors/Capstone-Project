@@ -35,6 +35,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
+    public static final String WISH_OBJECT = "WISH_OBJECT";
     @BindView(R.id.rv_wishes_list)
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
@@ -78,16 +79,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInAnonymously", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        // ...
                     }
                 });
     }
@@ -177,7 +174,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void goToDetailActivity(Wish wish) {
-
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(WISH_OBJECT, wish);
+        startActivity(intent);
     }
 
     @Override

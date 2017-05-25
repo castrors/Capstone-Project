@@ -21,6 +21,12 @@ public class DateUtils {
         return simpleDate.format(date);
     }
 
+    public static String getDateWithFormat(Date date, String format){
+        SimpleDateFormat simpleDate = new SimpleDateFormat(format, Locale.getDefault());
+
+        return simpleDate.format(date);
+    }
+
     public static Date getDate(String when, String format) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.getDefault());

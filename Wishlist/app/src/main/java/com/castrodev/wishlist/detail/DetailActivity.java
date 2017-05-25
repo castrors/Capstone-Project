@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.main.MainActivity;
 import com.castrodev.wishlist.model.Location;
+import com.castrodev.wishlist.model.Wish;
 import com.castrodev.wishlist.utils.DateUtils;
 import com.castrodev.wishlist.view.DatePickerFragment;
 import com.castrodev.wishlist.view.PriorityPickerFragment;
@@ -40,6 +41,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.castrodev.wishlist.main.MainActivity.WISH_OBJECT;
 
 public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener
         , DatePickerDialog.OnDateSetListener, PriorityPickerFragment.OnPrioritySelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -79,7 +82,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-
+        getIntentData();
         fabCheck.setOnClickListener(this);
         presenter = new DetailPresenterImpl(this);
 
@@ -90,6 +93,19 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 .enableAutoManage(this, this)
                 .build();
 
+    }
+
+    private void getIntentData() {
+        if(getIntent().hasExtra(WISH_OBJECT)){
+            Wish wish = getIntent().getParcelableExtra(WISH_OBJECT);
+            setDataToView(wish);
+        }
+    }
+
+    private void setDataToView(Wish wish) {
+        tilWhat.getEditText().setText(wish.getName());
+        tilWhen.getEditText().setText(DateUtils.getDateWithFormat(wish.getDueDate(), FORMAT));
+        //TODO Continuar
     }
 
     @Override
