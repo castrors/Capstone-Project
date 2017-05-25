@@ -1,5 +1,8 @@
 package com.castrodev.wishlist.detail;
 
+import android.content.Context;
+import android.net.Uri;
+
 import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
 import com.google.firebase.database.DatabaseReference;
@@ -9,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by rodrigocastro on 07/04/17.
  */
 
-public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.OnSaveFinishedListener {
+public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.OnSaveFinishedListener, DetailInteractor.OnUploadFinishedListener {
 
     private DetailView detailView;
     private DetailInteractor detailInteractor;
@@ -20,12 +23,21 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     }
 
     @Override
-    public void validateData(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl) {
+    public void validateData(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl, String photoPath) {
         if (detailView != null) {
             detailView.showProgress();
         }
 
-        detailInteractor.validate(what, when, why, where, howMuch, observation, photoUrl, this);
+        detailInteractor.validate(what, when, why, where, howMuch, observation, photoUrl, photoPath, this);
+    }
+
+    @Override
+    public void uploadPhoto(Context context, Uri photoUri) {
+        if (detailView != null) {
+            detailView.showProgress();
+            detailInteractor.uploadPhoto(context, photoUri, this);
+        }
+
     }
 
     @Override
@@ -85,6 +97,21 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child("wishes");
         wishesDatabaseReference.push().setValue(wish);
+    }
+
+    @Override
+    public void onUploadSuccess(String photoUrl) {
+        if (detailView != null) {
+            detailView.setPhotoUrl(photoUrl);
+            detailView.hideProgress();
+        }
+    }
+
+    @Override
+    public void onUploadError() {
+        if( detailView!=null){
+            detailView.setUploadError();
+        }
     }
 }
 

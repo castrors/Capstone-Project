@@ -16,11 +16,13 @@ public class Wish {
     private Double value;
     private String observation;
     private String photoUrl;
+    private String photoPath;
 
-    public Wish() {
+    public Wish(){
+
     }
 
-    public Wish(String name, Date dueDate, Integer priority, Location location, Double value, String observation, String Photo) {
+    public Wish(String name, Date dueDate, Integer priority, Location location, Double value, String observation, String photoUrl, String photoPath) {
         this.name = name;
         this.dueDate = dueDate;
         this.priority = priority;
@@ -28,6 +30,8 @@ public class Wish {
         this.value = value;
         this.observation = observation;
         this.photoUrl = photoUrl;
+        this.photoPath = photoPath;
+
     }
 
     public String getName() {
@@ -84,5 +88,13 @@ public class Wish {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }

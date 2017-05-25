@@ -20,4 +20,8 @@ public interface DetailView {
     void setHowMuchError();
 
     void navigateToHome();
+
+    void setPhotoUrl(String photoUrl);
+
+    void setUploadError();
 }

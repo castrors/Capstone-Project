@@ -25,7 +25,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private MainPresenterImpl presenter;
     private FirebaseRecyclerAdapter<Wish, WishViewHolder> mAdapter;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        database.setPersistenceEnabled(true);
         presenter = new MainPresenterImpl(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
 

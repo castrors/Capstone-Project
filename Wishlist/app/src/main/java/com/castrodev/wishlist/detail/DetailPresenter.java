@@ -1,5 +1,8 @@
 package com.castrodev.wishlist.detail;
 
+import android.content.Context;
+import android.net.Uri;
+
 import com.castrodev.wishlist.model.Location;
 
 /**
@@ -7,7 +10,9 @@ import com.castrodev.wishlist.model.Location;
  */
 
 public interface DetailPresenter {
-    void validateData(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl);
+    void validateData(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl, String photoPath);
+
+    void uploadPhoto(Context context, Uri photoUri);
 
     void onDestroy();
 }

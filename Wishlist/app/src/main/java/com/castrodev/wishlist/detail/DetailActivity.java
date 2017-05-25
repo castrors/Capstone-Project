@@ -20,12 +20,12 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.main.MainActivity;
 import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.utils.DateUtils;
-import com.castrodev.wishlist.utils.FileUtil;
 import com.castrodev.wishlist.view.DatePickerFragment;
 import com.castrodev.wishlist.view.PriorityPickerFragment;
 import com.google.android.gms.common.ConnectionResult;
@@ -36,8 +36,6 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,14 +70,15 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     private DetailPresenter presenter;
     private Location locationSelected;
-    private Uri imageUri;
-    private String imagePath;
+    private Uri photoUri;
+    private String photoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+
 
         fabCheck.setOnClickListener(this);
         presenter = new DetailPresenterImpl(this);
@@ -141,6 +140,16 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     }
 
     @Override
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    @Override
+    public void setUploadError() {
+        Toast.makeText(this, "Upload Error", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onClick(View v) {
         clearErrors();
         presenter.validateData(
@@ -150,7 +159,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 , locationSelected
                 , tilHowMuch.getEditText().getText().toString()
                 , tilObservation.getEditText().getText().toString()
-                , "");
+                , photoUrl
+                , photoUri.toString());
+
     }
 
     @OnClick({R.id.til_when, R.id.iv_when})
@@ -230,12 +241,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                     tilWhere.getEditText().setText(locationSelected.getName());
                     break;
                 case PHOTO_PICKER_REQUEST:
-                    final Uri uri = data.getData();
-                    final File file = FileUtil.getFileByPath(this, uri);
+                    photoUri = data.getData();
                     Picasso.with(this)
-                            .load(file)
+                            .load(photoUri)
                             .error(R.drawable.ic_photo_camera)
                             .into(ivPhoto);
+
+                    presenter.uploadPhoto(this, photoUri);
                     break;
             }
         }
