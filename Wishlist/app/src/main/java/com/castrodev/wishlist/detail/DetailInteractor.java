@@ -3,7 +3,6 @@ package com.castrodev.wishlist.detail;
 import android.content.Context;
 import android.net.Uri;
 
-import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
 
 /**
@@ -31,7 +30,7 @@ public interface DetailInteractor {
         void onUploadError();
     }
 
-    void validate(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl, String photoPath, OnSaveFinishedListener detailPresenter);
+    void validate(Wish wish, OnSaveFinishedListener detailPresenter);
 
     void uploadPhoto(Context context, Uri photoUri, OnUploadFinishedListener uploadListener);
 }

@@ -23,7 +23,7 @@ class MainAdapter extends FirebaseRecyclerAdapter<Wish, WishViewHolder> {
     }
 
     @Override
-    protected void populateViewHolder(WishViewHolder viewHolder, Wish model, int position) {
+    protected void populateViewHolder(WishViewHolder viewHolder, Wish model, final int position) {
 
         final DatabaseReference wishReference = getRef(position);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

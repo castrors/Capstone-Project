@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
@@ -36,6 +37,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements MainView {
 
     public static final String WISH_OBJECT = "WISH_OBJECT";
+    public static final String WISH_KEY = "WISH_KEY";
     @BindView(R.id.rv_wishes_list)
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
@@ -173,9 +175,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void goToDetailActivity(Wish wish) {
+    public void goToDetailActivity(Wish wish, DatabaseReference databaseReference) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(WISH_OBJECT, wish);
+        intent.putExtra(WISH_KEY, databaseReference.getKey());
         startActivity(intent);
     }
 

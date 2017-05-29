@@ -26,7 +26,9 @@ import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.main.MainActivity;
 import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
+import com.castrodev.wishlist.model.WishBuilder;
 import com.castrodev.wishlist.utils.DateUtils;
+import com.castrodev.wishlist.utils.WishUtils;
 import com.castrodev.wishlist.view.DatePickerFragment;
 import com.castrodev.wishlist.view.PriorityPickerFragment;
 import com.google.android.gms.common.ConnectionResult;
@@ -38,10 +40,13 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.castrodev.wishlist.main.MainActivity.WISH_KEY;
 import static com.castrodev.wishlist.main.MainActivity.WISH_OBJECT;
 
 public class DetailActivity extends AppCompatActivity implements DetailView, View.OnClickListener
@@ -76,6 +81,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     private Uri photoUri;
     private String photoUrl;
 
+    Wish wishByIntent;
+    private String wishKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,16 +104,25 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     }
 
     private void getIntentData() {
-        if(getIntent().hasExtra(WISH_OBJECT)){
-            Wish wish = getIntent().getParcelableExtra(WISH_OBJECT);
-            setDataToView(wish);
+        if (getIntent().hasExtra(WISH_OBJECT)) {
+            wishByIntent = getIntent().getParcelableExtra(WISH_OBJECT);
+            setDataToView(wishByIntent);
+        }
+        if (getIntent().hasExtra(WISH_KEY)) {
+            wishKey = getIntent().getStringExtra(WISH_KEY);
         }
     }
 
     private void setDataToView(Wish wish) {
         tilWhat.getEditText().setText(wish.getName());
         tilWhen.getEditText().setText(DateUtils.getDateWithFormat(wish.getDueDate(), FORMAT));
-        //TODO Continuar
+        tilWhy.getEditText().setText(WishUtils.getPriority(wish.getPriority()));
+        tilWhere.getEditText().setText(wish.getLocation().getName());
+        tilHowMuch.getEditText().setText(wish.getValue().toString());
+        tilObservation.getEditText().setText(wish.getObservation());
+        locationSelected = wish.getLocation();
+        photoUrl = wish.getPhotoUrl();
+        photoUri = Uri.parse(wish.getPhotoPath());
     }
 
     @Override
@@ -168,15 +185,37 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     @Override
     public void onClick(View v) {
         clearErrors();
-        presenter.validateData(
-                tilWhat.getEditText().getText().toString()
-                , tilWhen.getEditText().getText().toString()
-                , tilWhy.getEditText().getText().toString()
-                , locationSelected
-                , tilHowMuch.getEditText().getText().toString()
-                , tilObservation.getEditText().getText().toString()
-                , photoUrl
-                , photoUri.toString());
+        Wish wish;
+
+        String name = tilWhat.getEditText().getText().toString();
+        Date dueDate = DateUtils.getDate(tilWhen.getEditText().getText().toString(), FORMAT);
+        Integer priority = WishUtils.getPriority(tilWhy.getEditText().getText().toString());
+        Double value = WishUtils.getValue(tilHowMuch.getEditText().getText().toString());
+        String observation = tilObservation.getEditText().getText().toString();
+
+        if (wishByIntent != null) {
+            wish = wishByIntent;
+            wish.setName(name);
+            wish.setDueDate(dueDate);
+            wish.setPriority(priority);
+            wish.setLocation(locationSelected);
+            wish.setValue(value);
+            wish.setObservation(observation);
+            wish.setPhotoUrl(photoUrl);
+            wish.setPhotoPath(photoUri.toString());
+        } else {
+            wish = new WishBuilder()
+                    .withName(name)
+                    .withDueDate(dueDate)
+                    .withPriority(priority)
+                    .withLocation(locationSelected)
+                    .withValue(value)
+                    .withObservation(observation)
+                    .withPhotoUrl(photoUrl)
+                    .withPhotoPath(photoUri.toString())
+                    .createWish();
+        }
+        presenter.validateData(wish, wishKey);
 
     }
 

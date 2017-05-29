@@ -3,7 +3,6 @@ package com.castrodev.wishlist.detail;
 import android.content.Context;
 import android.net.Uri;
 
-import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,6 +15,7 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
 
     private DetailView detailView;
     private DetailInteractor detailInteractor;
+    private String wishKey;
 
     public DetailPresenterImpl(DetailView detailView) {
         this.detailView = detailView;
@@ -23,12 +23,13 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     }
 
     @Override
-    public void validateData(String what, String when, String why, Location where, String howMuch, String observation, String photoUrl, String photoPath) {
+    public void validateData(Wish wish, String wishKey) {
         if (detailView != null) {
             detailView.showProgress();
         }
 
-        detailInteractor.validate(what, when, why, where, howMuch, observation, photoUrl, photoPath, this);
+        this.wishKey = wishKey;
+        detailInteractor.validate(wish, this);
     }
 
     @Override
@@ -96,7 +97,12 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     private void save(Wish wish) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child("wishes");
-        wishesDatabaseReference.push().setValue(wish);
+
+        if(wishKey!=null && wishKey != ""){
+            wishesDatabaseReference.push().setValue(wish);
+        } else {
+            //TODO 
+        }
     }
 
     @Override

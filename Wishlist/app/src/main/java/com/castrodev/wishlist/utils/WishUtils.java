@@ -50,4 +50,10 @@ public class WishUtils {
 
         return -1;
     }
+
+    public static String getPriority(int position){
+        String[] priorityArray = PriorityPickerFragment.priorityArray;
+
+        return priorityArray[position];
+    }
 }

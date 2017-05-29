@@ -1,6 +1,7 @@
 package com.castrodev.wishlist.main;
 
 import com.castrodev.wishlist.model.Wish;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 /**
@@ -11,7 +12,7 @@ public interface MainView {
     void showProgress();
     void hideProgress();
     void setItems(Query wishesQuery);
-    void goToDetailActivity(Wish wish);
+    void goToDetailActivity(Wish wish, DatabaseReference databaseReference);
     void showDefaultError();
     void showNetworkError();
     boolean isConnected();
