@@ -99,9 +99,9 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
         DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child("wishes");
 
         if(wishKey!=null && wishKey != ""){
-            wishesDatabaseReference.push().setValue(wish);
+            wishesDatabaseReference.child(wishKey).setValue(wish);
         } else {
-            //TODO 
+            wishesDatabaseReference.push().setValue(wish);
         }
     }
 
