@@ -7,7 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by rodrigocastro on 28/04/17.
  */
 
-class MainInteractorImpl implements MainInteractor {
+public class MainInteractorImpl implements MainInteractor {
     @Override
     public void fetchWishes(OnFinishedListener listener) {
 

@@ -141,4 +141,18 @@ public class Wish implements Parcelable {
             return new Wish[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Wish{" +
+                "name='" + name + '\'' +
+                ", dueDate=" + dueDate +
+                ", priority=" + priority +
+                ", location=" + location +
+                ", value=" + value +
+                ", observation='" + observation + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", photoPath='" + photoPath + '\'' +
+                '}';
+    }
 }

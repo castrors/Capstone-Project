@@ -76,4 +76,13 @@ public class Location implements Parcelable{
             return new Location[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

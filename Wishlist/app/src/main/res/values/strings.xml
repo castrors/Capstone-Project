@@ -14,4 +14,5 @@
     <string name="where_error">Where error message!</string>
     <string name="how_much_error">How much error message!</string>
     <string name="pick_priority">Why i need it?</string>
+    <string name="title_widget_current_month">Wishlist Current Month</string>
 </resources>

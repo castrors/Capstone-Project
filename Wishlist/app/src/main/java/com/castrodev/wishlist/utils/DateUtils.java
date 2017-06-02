@@ -42,4 +42,17 @@ public class DateUtils {
         Date currentDate = calendar.getTime();
         return date.getTime() - currentDate.getTime() < 0;
     }
+
+    public static String getCurrentMonthName(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+    }
+
+    public static boolean isInThisMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        Calendar compareDate = Calendar.getInstance();
+        compareDate.setTime(date);
+        return calendar.get(Calendar.YEAR) == compareDate.get(Calendar.YEAR) &&
+                calendar.get(Calendar.MONTH) == compareDate.get(Calendar.MONTH);
+    }
 }
