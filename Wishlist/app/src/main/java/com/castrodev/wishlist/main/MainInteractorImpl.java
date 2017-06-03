@@ -1,5 +1,7 @@
 package com.castrodev.wishlist.main;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -11,7 +13,9 @@ public class MainInteractorImpl implements MainInteractor {
     @Override
     public void fetchWishes(OnFinishedListener listener) {
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        listener.onSuccess(databaseReference.child("wishes"));
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
+        listener.onSuccess(databaseReference);
     }
 }

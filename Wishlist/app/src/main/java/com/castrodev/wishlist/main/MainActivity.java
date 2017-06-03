@@ -3,12 +3,15 @@ package com.castrodev.wishlist.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -42,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
 
     public static final int RC_SIGN_IN = 1;
     private static final String TAG = MainActivity.class.getName();
@@ -55,11 +64,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.drawer_layout);
         ButterKnife.bind(this);
 
         presenter = new MainPresenterImpl(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+        setupView();
+
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -87,6 +99,40 @@ public class MainActivity extends AppCompatActivity implements MainView {
                                     Toast.LENGTH_SHORT).show();
                         }
 
+                    }
+                });
+    }
+
+    private void setupView() {
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+
+
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        drawerLayout.closeDrawers();
+                        switch (menuItem.getItemId()){
+                            case R.id.drawer_login:
+                                Toast.makeText(MainActivity.this, "Login", Toast.LENGTH_SHORT).show();
+                                login();
+                                break;
+                            case R.id.drawer_logout:
+                                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                                AuthUI.getInstance().signOut(MainActivity.this);
+                                break;
+                        }
+                        return true;
                     }
                 });
     }
@@ -132,20 +178,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.logout:
-                AuthUI.getInstance().signOut(this);
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.login:
-                login();
             default:
                 return super.onOptionsItemSelected(item);
 

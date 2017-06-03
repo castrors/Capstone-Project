@@ -6,28 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cl_root"
-        tools:context="com.castrodev.wishlist.main.MainActivity">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_wishes_list"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
 
-        </android.support.v7.widget.RecyclerView>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="100dp"
-            android:visibility="gone"
-            />
-
-    </android.support.constraint.ConstraintLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add"
@@ -37,7 +30,29 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
         app:fabSize="normal"
-        app:layout_anchor="@id/cl_root"
         app:layout_anchorGravity="bottom|right|end" />
+
+    <FrameLayout
+        android:id="@+id/cl_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.castrodev.wishlist.main.MainActivity">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_wishes_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="100dp"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.castrodev.wishlist.model.Wish;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -96,7 +98,8 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
 
     private void save(Wish wish) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child("wishes");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
 
         if(wishKey!=null && wishKey != ""){
             wishesDatabaseReference.child(wishKey).setValue(wish);

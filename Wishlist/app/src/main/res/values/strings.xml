@@ -18,4 +18,6 @@
     <string name="title_widget_detail">Wishlist Details</string>
     <string name="widget_current_month_count">%d Wishes</string>
     <string name="empty_wish_list">No Wish Available</string>
+    <string name="drawer_login">Login</string>
+    <string name="drawer_logout">Logout</string>
 </resources>
