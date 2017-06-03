@@ -14,8 +14,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -57,6 +60,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     private static final int PLACE_PICKER_REQUEST = 1;
     private static final int PHOTO_PICKER_REQUEST = 2;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.progress)
     ProgressBar progressBar;
     @BindView(R.id.til_what)
@@ -90,6 +95,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
+        setupToolbar();
         getIntentData();
         fabCheck.setOnClickListener(this);
         presenter = new DetailPresenterImpl(this);
@@ -101,6 +107,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                 .enableAutoManage(this, this)
                 .build();
 
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void getIntentData() {
@@ -123,6 +136,18 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         locationSelected = wish.getLocation();
         photoUrl = wish.getPhotoUrl();
         photoUri = Uri.parse(wish.getPhotoPath());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -192,6 +217,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         Integer priority = WishUtils.getPriority(tilWhy.getEditText().getText().toString());
         Double value = WishUtils.getValue(tilHowMuch.getEditText().getText().toString());
         String observation = tilObservation.getEditText().getText().toString();
+        String photoUriValue = photoUri != null ? photoUri.toString() : "";
 
         if (wishByIntent != null) {
             wish = wishByIntent;
@@ -202,7 +228,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             wish.setValue(value);
             wish.setObservation(observation);
             wish.setPhotoUrl(photoUrl);
-            wish.setPhotoPath(photoUri.toString());
+            wish.setPhotoPath(photoUriValue);
         } else {
             wish = new WishBuilder()
                     .withName(name)
@@ -212,7 +238,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
                     .withValue(value)
                     .withObservation(observation)
                     .withPhotoUrl(photoUrl)
-                    .withPhotoPath(photoUri.toString())
+                    .withPhotoPath(photoUriValue)
                     .createWish();
         }
         presenter.validateData(wish, wishKey);
