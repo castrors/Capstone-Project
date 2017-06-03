@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.castrodev.wishlist.R;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     public static final String WISH_OBJECT = "WISH_OBJECT";
     public static final String WISH_KEY = "WISH_KEY";
+    public static final int LOGIN_POSITION = 0;
+    public static final int LOGOUT_POSITION = 1;
     @BindView(R.id.rv_wishes_list)
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
@@ -79,28 +82,41 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                } else {
-//                     User is signed out
-//                    login();
+                    TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_username);
+                    if (!user.isAnonymous()) {
+                        username.setText(user.getDisplayName());
+                        navigationView.getMenu().findItem(R.id.drawer_login).setVisible(false);
+                        navigationView.getMenu().findItem(R.id.drawer_logout).setVisible(true);
+                    } else {
+                        username.setText(getString(R.string.default_username));
+                        navigationView.getMenu().findItem(R.id.drawer_login).setVisible(true);
+                        navigationView.getMenu().findItem(R.id.drawer_logout).setVisible(false);
+                    }
                 }
             }
         };
 
+        signInAnonymously();
 
-        mFirebaseAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
+    }
 
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInAnonymously", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+    private void signInAnonymously() {
+        if (mFirebaseAuth.getCurrentUser() == null) {
+            mFirebaseAuth.signInAnonymously()
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
+
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "signInAnonymously", task.getException());
+                                Toast.makeText(MainActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
                         }
-
-                    }
-                });
+                    });
+        }
     }
 
     private void setupView() {
@@ -122,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         drawerLayout.closeDrawers();
-                        switch (menuItem.getItemId()){
+                        switch (menuItem.getItemId()) {
                             case R.id.drawer_login:
                                 Toast.makeText(MainActivity.this, "Login", Toast.LENGTH_SHORT).show();
                                 login();
@@ -130,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
                             case R.id.drawer_logout:
                                 Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
                                 AuthUI.getInstance().signOut(MainActivity.this);
+                                signInAnonymously();
+                                presenter.onResume();
                                 break;
                         }
                         return true;
@@ -148,6 +166,20 @@ public class MainActivity extends AppCompatActivity implements MainView {
                                         new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                         .build(),
                 RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                // Sign-in succeeded, set up the UI
+                Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                // Sign in was canceled by the user, finish the activity
+                Toast.makeText(this, "Sign in canceled", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @OnClick(R.id.fab_add)

@@ -99,12 +99,14 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     private void save(Wish wish) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
+        if (user != null) {
+            DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
 
-        if(wishKey!=null && wishKey != ""){
-            wishesDatabaseReference.child(wishKey).setValue(wish);
-        } else {
-            wishesDatabaseReference.push().setValue(wish);
+            if (wishKey != null && wishKey != "") {
+                wishesDatabaseReference.child(wishKey).setValue(wish);
+            } else {
+                wishesDatabaseReference.push().setValue(wish);
+            }
         }
     }
 
@@ -118,7 +120,7 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
 
     @Override
     public void onUploadError() {
-        if( detailView!=null){
+        if (detailView != null) {
             detailView.setUploadError();
         }
     }

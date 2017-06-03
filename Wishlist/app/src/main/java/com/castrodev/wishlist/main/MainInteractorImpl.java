@@ -15,7 +15,10 @@ public class MainInteractorImpl implements MainInteractor {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference databaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
-        listener.onSuccess(databaseReference);
+        if(user !=null){
+            DatabaseReference databaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
+            listener.onSuccess(databaseReference);
+        }
+
     }
 }
