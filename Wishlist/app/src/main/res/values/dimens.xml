@@ -7,7 +7,14 @@
     <dimen name="widget_current_month_min_resize_width">40dp</dimen>
     <dimen name="widget_current_month_min_resize_height">@dimen/widget_current_month_default_height</dimen>
     <dimen name="widget_current_month_large_width">320dp</dimen>
+
+    <dimen name="widget_detail_default_width">250dp</dimen>
+    <dimen name="widget_detail_default_height">180dp</dimen>
+    <dimen name="widget_detail_min_resize_width">220dp</dimen>
+    <dimen name="widget_detail_min_resize_height">@dimen/widget_detail_default_height</dimen>
+
     <dimen name="forecast_text_width">72dp</dimen>
     <dimen name="forecast_text_size">24sp</dimen>
     <dimen name="forecast_temperature_space">8dp</dimen>
+    <dimen name="list_icon">40dp</dimen>
 </resources>
