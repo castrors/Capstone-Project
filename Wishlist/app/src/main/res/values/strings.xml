@@ -15,4 +15,5 @@
     <string name="how_much_error">How much error message!</string>
     <string name="pick_priority">Why i need it?</string>
     <string name="title_widget_current_month">Wishlist Current Month</string>
+    <string name="widget_current_month_count">%d Wishes</string>
 </resources>

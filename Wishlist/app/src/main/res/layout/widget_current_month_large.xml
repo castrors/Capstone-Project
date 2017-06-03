@@ -50,21 +50,22 @@
 
         <TextView
             android:id="@+id/widget_low_temperature"
-            android:layout_width="@dimen/forecast_text_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:lines="1"
             android:gravity="end"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/forecast_low_text"
             android:textSize="@dimen/forecast_text_size"
-            tools:text="7"/>
+            tools:text="$12,345"/>
 
         <TextView
             android:id="@+id/widget_high_temperature"
-            android:layout_width="@dimen/forecast_text_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
@@ -76,7 +77,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/forecast_text_size"
-            tools:text="10"/>
+            tools:text="10 Wishes"/>
 
     </RelativeLayout>
 </FrameLayout>

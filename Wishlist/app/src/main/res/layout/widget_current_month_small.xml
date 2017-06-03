@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceLarge"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/primary_text"
             tools:text="48" />
     </LinearLayout>

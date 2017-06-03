@@ -3,7 +3,9 @@ package com.castrodev.wishlist.utils;
 import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.view.PriorityPickerFragment;
 
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by rodrigocastro on 13/04/17.
@@ -37,7 +39,7 @@ public class WishUtils {
     }
 
     public static Integer getPriority(String why) {
-        if(WishUtils.isEmpty(why)) {
+        if (WishUtils.isEmpty(why)) {
             return -1;
         }
         String[] priorityArray = PriorityPickerFragment.priorityArray;
@@ -51,9 +53,13 @@ public class WishUtils {
         return -1;
     }
 
-    public static String getPriority(int position){
+    public static String getPriority(int position) {
         String[] priorityArray = PriorityPickerFragment.priorityArray;
-
         return priorityArray[position];
+    }
+
+    public static String getMonetaryValue(Double value) {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        return numberFormat.format(value);
     }
 }

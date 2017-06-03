@@ -21,6 +21,7 @@ import com.castrodev.wishlist.main.MainInteractorImpl;
 import com.castrodev.wishlist.model.MonthResume;
 import com.castrodev.wishlist.model.Wish;
 import com.castrodev.wishlist.utils.DateUtils;
+import com.castrodev.wishlist.utils.WishUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -78,8 +79,8 @@ public class CurrentMonthWidgetIntentService extends IntentService {
                 setRemoteContentDescription(views, monthResume.getMonth());
             }
             views.setTextViewText(R.id.widget_description, monthResume.getMonth());
-            views.setTextViewText(R.id.widget_high_temperature, String.valueOf(monthResume.getCount()));
-            views.setTextViewText(R.id.widget_low_temperature, monthResume.getTotalValue().toString());
+            views.setTextViewText(R.id.widget_high_temperature, String.format(getResources().getString(R.string.widget_current_month_count), monthResume.getCount()));
+            views.setTextViewText(R.id.widget_low_temperature, WishUtils.getMonetaryValue(monthResume.getTotalValue()));
 
             // Create an Intent to launch MainActivity
             Intent launchIntent = new Intent(this, MainActivity.class);
