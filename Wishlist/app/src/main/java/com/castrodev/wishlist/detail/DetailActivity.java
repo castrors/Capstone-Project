@@ -245,19 +245,19 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     }
 
-    @OnClick({R.id.til_when, R.id.iv_when})
+    @OnClick({R.id.tiet_when, R.id.iv_when})
     public void onWhenClicked(View v) {
         DialogFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    @OnClick({R.id.til_why, R.id.iv_why})
+    @OnClick({R.id.tiet_why, R.id.iv_why})
     public void onWhyClicked(View v) {
         DialogFragment priorityPickerFragment = new PriorityPickerFragment();
         priorityPickerFragment.show(getSupportFragmentManager(), "priorityPicker");
     }
 
-    @OnClick({R.id.til_where, R.id.iv_where})
+    @OnClick({R.id.tiet_where, R.id.iv_where})
     public void onWhereClicked(View v) {
 
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
