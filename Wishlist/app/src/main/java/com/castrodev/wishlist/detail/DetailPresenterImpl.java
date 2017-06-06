@@ -4,10 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.castrodev.wishlist.model.Wish;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by rodrigocastro on 07/04/17.
@@ -40,12 +36,19 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
             detailView.showProgress();
             detailInteractor.uploadPhoto(context, photoUri, this);
         }
-
     }
 
     @Override
     public void onDestroy() {
         detailView = null;
+    }
+
+    @Override
+    public void deleteWish(String wishKey) {
+        if (detailView != null) {
+            detailInteractor.delete(wishKey);
+            detailView.navigateToHome();
+        }
     }
 
     @Override
@@ -91,24 +94,11 @@ public class DetailPresenterImpl implements DetailPresenter, DetailInteractor.On
     @Override
     public void onValidationSuccess(Wish wish) {
         if (detailView != null) {
-            save(wish);
+            detailInteractor.save(wishKey, wish);
             detailView.navigateToHome();
         }
     }
 
-    private void save(Wish wish) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
-
-            if (wishKey != null && wishKey != "") {
-                wishesDatabaseReference.child(wishKey).setValue(wish);
-            } else {
-                wishesDatabaseReference.push().setValue(wish);
-            }
-        }
-    }
 
     @Override
     public void onUploadSuccess(String photoUrl) {

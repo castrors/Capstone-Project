@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -15,9 +16,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -49,6 +53,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.text.TextUtils.isEmpty;
 import static com.castrodev.wishlist.main.MainActivity.WISH_KEY;
 import static com.castrodev.wishlist.main.MainActivity.WISH_OBJECT;
 
@@ -95,8 +100,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        setupToolbar();
         getIntentData();
+        setupToolbar();
         fabCheck.setOnClickListener(this);
         presenter = new DetailPresenterImpl(this);
 
@@ -109,6 +114,19 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.details, menu);
+        if (wishByIntent == null) {
+            MenuItem itemDelete = menu.findItem(R.id.action_detail_delete);
+            itemDelete.setVisible(false);
+        }
+
+        return true;
+    }
+
     private void setupToolbar() {
         setSupportActionBar(toolbar);
 
@@ -117,12 +135,16 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
     }
 
     private void getIntentData() {
+        if (getIntent().hasExtra(WISH_KEY)) {
+            wishKey = getIntent().getStringExtra(WISH_KEY);
+        }
+
         if (getIntent().hasExtra(WISH_OBJECT)) {
             wishByIntent = getIntent().getParcelableExtra(WISH_OBJECT);
             setDataToView(wishByIntent);
-        }
-        if (getIntent().hasExtra(WISH_KEY)) {
-            wishKey = getIntent().getStringExtra(WISH_KEY);
+            toolbar.setTitle(R.string.title_detail_edit_mode);
+        } else {
+            toolbar.setTitle(R.string.title_detail_new_mode);
         }
     }
 
@@ -136,6 +158,14 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
         locationSelected = wish.getLocation();
         photoUrl = wish.getPhotoUrl();
         photoUri = Uri.parse(wish.getPhotoPath());
+        if (!isEmpty(photoUrl)) {
+            Picasso.with(this)
+                    .load(photoUrl)
+                    .error(R.drawable.ic_photo_camera)
+                    .fit()
+                    .centerCrop()
+                    .into(ivPhoto);
+        }
     }
 
     @Override
@@ -144,9 +174,22 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Vie
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_detail_delete:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.action_detail_delete)
+                        .setMessage(R.string.message_detail_delete)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                presenter.deleteWish(wishKey);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .create()
+                        .show();
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 

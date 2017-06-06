@@ -16,14 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways|snap" />
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
+        android:layout_marginTop="?actionBarSize"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -34,10 +35,8 @@
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/ic_photo_camera"
-                android:padding="56dp"
-                android:background="@android:color/holo_blue_bright" />
+                android:layout_height="240dp"
+                android:src="@drawable/ic_photo_camera" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til_what"
@@ -118,8 +117,8 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/til_where"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/tiet_where"
@@ -128,6 +127,7 @@
                         android:focusable="false"
                         android:hint="@string/where" />
                 </android.support.design.widget.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/iv_where"
                     android:layout_width="wrap_content"
@@ -145,8 +145,8 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/how_much" />
+                    android:hint="@string/how_much"
+                    android:inputType="numberDecimal" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

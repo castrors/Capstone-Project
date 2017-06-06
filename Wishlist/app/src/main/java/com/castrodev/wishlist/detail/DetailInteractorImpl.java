@@ -6,26 +6,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.castrodev.wishlist.model.Location;
 import com.castrodev.wishlist.model.Wish;
-import com.castrodev.wishlist.model.WishBuilder;
-import com.castrodev.wishlist.utils.DateUtils;
 import com.castrodev.wishlist.utils.WishUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.util.concurrent.Executor;
-
-import static com.castrodev.wishlist.detail.DetailActivity.FORMAT;
 
 /**
  * Created by rodrigocastro on 07/04/17.
  */
 
 public class DetailInteractorImpl implements DetailInteractor {
+
 
     @Override
     public void validate(Wish wish, OnSaveFinishedListener listener) {
@@ -78,5 +76,33 @@ public class DetailInteractorImpl implements DetailInteractor {
                 uploadListener.onUploadError();
             }
         });
+    }
+
+    @Override
+    public void save(String wishKey, Wish wish) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
+
+            if (wishKey != null && wishKey != "") {
+                wishesDatabaseReference.child(wishKey).setValue(wish);
+            } else {
+                wishesDatabaseReference.push().setValue(wish);
+            }
+        }
+    }
+
+    @Override
+    public void delete(String wishKey) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            DatabaseReference wishesDatabaseReference = firebaseDatabase.getReference().child(user.getUid()).child("wishes");
+
+            if (wishKey != null && wishKey != "") {
+                wishesDatabaseReference.child(wishKey).removeValue();
+            }
+        }
     }
 }

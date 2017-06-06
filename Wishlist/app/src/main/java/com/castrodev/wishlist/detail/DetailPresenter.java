@@ -15,4 +15,6 @@ public interface DetailPresenter {
     void uploadPhoto(Context context, Uri photoUri);
 
     void onDestroy();
+
+    void deleteWish(String wishKey);
 }

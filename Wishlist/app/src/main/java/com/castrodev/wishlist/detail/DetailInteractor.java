@@ -27,10 +27,15 @@ public interface DetailInteractor {
 
     interface OnUploadFinishedListener {
         void onUploadSuccess(String photoUrl);
+
         void onUploadError();
     }
 
     void validate(Wish wish, OnSaveFinishedListener detailPresenter);
 
     void uploadPhoto(Context context, Uri photoUri, OnUploadFinishedListener uploadListener);
+
+    void save(String wishKey, Wish wish);
+
+    void delete(String wishKey);
 }

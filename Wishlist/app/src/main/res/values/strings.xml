@@ -21,4 +21,8 @@
     <string name="drawer_login">Login</string>
     <string name="drawer_logout">Logout</string>
     <string name="default_username">Username</string>
+    <string name="title_detail_edit_mode">Edit Wish</string>
+    <string name="title_detail_new_mode">New Wish</string>
+    <string name="action_detail_delete">Delete</string>
+    <string name="message_detail_delete">Do you really want to delete this wish?</string>
 </resources>
