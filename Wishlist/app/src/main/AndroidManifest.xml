@@ -74,6 +74,10 @@
             android:enabled="@bool/widget_detail_enabled"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name=".notification.NotificationInteractorIntentService"
+            android:exported="false"/>
     </application>
 
 </manifest>

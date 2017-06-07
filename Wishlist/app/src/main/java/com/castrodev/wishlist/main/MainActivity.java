@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.castrodev.wishlist.R;
 import com.castrodev.wishlist.detail.DetailActivity;
 import com.castrodev.wishlist.model.Wish;
+import com.castrodev.wishlist.notification.NotificationInteractorIntentService;
 import com.castrodev.wishlist.viewholder.WishViewHolder;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         setupView();
+
+        fetchOffer();
 
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -166,6 +169,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
                                         new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                         .build(),
                 RC_SIGN_IN);
+    }
+
+    private void fetchOffer() {
+        Intent intent = new Intent(this, NotificationInteractorIntentService.class);
+        startService(intent);
     }
 
     @Override
@@ -265,4 +273,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public boolean isConnected() {
         return true;
     }
+
+
 }

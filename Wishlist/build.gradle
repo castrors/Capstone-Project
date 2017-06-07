@@ -43,4 +43,6 @@ ext {
     butterknifeVersion = '8.5.1'
     mockitoVersion = '1.10.19'
     multidexVersion= '1.0.1'
+    retrofitVersion = '2.2.0'
+    okHttpVersion = '3.6.0'
 }
