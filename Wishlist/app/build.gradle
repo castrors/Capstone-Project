@@ -13,8 +13,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword "keystore"
+            keyAlias "alias"
+            keyPassword "keystore"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -28,7 +39,6 @@ dependencies {
     compile "com.google.firebase:firebase-database:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-auth:${project.playServicesVersion}"
     compile "com.google.firebase:firebase-storage:${project.playServicesVersion}"
-    compile "com.google.firebase:firebase-config:${project.playServicesVersion}"
     compile "com.google.android.gms:play-services-places:${project.playServicesVersion}"
     compile "com.firebaseui:firebase-ui-auth:${project.firebaseUiVersion}"
     compile "com.firebaseui:firebase-ui-database:${project.firebaseUiVersion}"
