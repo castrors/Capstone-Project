@@ -17,4 +17,6 @@
     <dimen name="forecast_text_size">24sp</dimen>
     <dimen name="forecast_temperature_space">8dp</dimen>
     <dimen name="list_icon">40dp</dimen>
+    <dimen name="large_default_padding">16dp</dimen>
+    <dimen name="small_default_padding">4dp</dimen>
 </resources>
