@@ -36,6 +36,7 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
+                android:contentDescription="@string/content_description_select_photo"
                 android:src="@drawable/ic_photo_camera" />
 
             <android.support.design.widget.TextInputLayout
@@ -76,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
+                    android:contentDescription="@string/content_description_when"
                     android:src="@drawable/ic_date" />
 
             </LinearLayout>
@@ -106,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
+                    android:contentDescription="@string/content_description_why"
                     android:src="@drawable/ic_priority" />
             </LinearLayout>
 
@@ -134,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
+                    android:contentDescription="@string/content_description_where"
                     android:src="@drawable/ic_location" />
             </LinearLayout>
 
@@ -174,7 +178,7 @@
         android:id="@+id/fab_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_check"
         app:fabSize="normal"

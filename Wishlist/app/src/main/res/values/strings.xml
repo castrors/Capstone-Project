@@ -26,4 +26,10 @@
     <string name="action_detail_delete">Delete</string>
     <string name="message_detail_delete">Do you really want to delete this wish?</string>
     <string name="username">Username</string>
+    <string name="content_description_select_photo">Select photo</string>
+    <string name="content_description_when">when?</string>
+    <string name="content_description_why">Why?</string>
+    <string name="content_description_where">Where?</string>
+    <string name="content_description_wish_photo">Wish photo</string>
+    <string name="content_description_widget_icon">Widget icon</string>
 </resources>

@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
+            android:contentDescription="@string/content_description_widget_icon"
             tools:src="@drawable/ic_photo_camera" />
 
         <TextView
@@ -42,8 +43,10 @@
             android:layout_toEndOf="@id/widget_icon"
             android:layout_toRightOf="@id/widget_icon"
             android:fontFamily="sans-serif-condensed"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
+            android:paddingLeft="@dimen/large_default_padding"
+            android:paddingRight="@dimen/large_default_padding"
+            android:paddingStart="@dimen/large_default_padding"
+            android:paddingEnd="@dimen/large_default_padding"
             android:textAppearance="?android:textAppearanceLarge"
             android:textColor="@color/primary_text"
             tools:text="Clear" />

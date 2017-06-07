@@ -32,13 +32,16 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
+            android:contentDescription="@string/content_description_widget_icon"
             tools:src="@drawable/ic_photo_camera" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/widget_icon"
             android:layout_toRightOf="@id/widget_icon"
             android:orientation="vertical">
 
