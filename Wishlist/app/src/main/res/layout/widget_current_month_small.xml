@@ -36,7 +36,7 @@
             tools:src="@drawable/ic_photo_camera" />
 
         <TextView
-            android:id="@+id/widget_high_temperature"
+            android:id="@+id/widget_wishes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

@@ -46,19 +46,7 @@ public class CurrentMonthWidgetIntentService extends IntentService {
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this,
                 CurrentMonthWidgetProvider.class));
 
-//        // Extract the weather data from the Cursor
-//        int weatherId = data.getInt(INDEX_WEATHER_ID);
-//        int weatherArtResourceId = Utility.getArtResourceForWeatherCondition(weatherId);
-//        String description = data.getString(INDEX_SHORT_DESC);
-//        double maxTemp = data.getDouble(INDEX_MAX_TEMP);
-//        double minTemp = data.getDouble(INDEX_MIN_TEMP);
-//        String formattedMaxTemperature = Utility.formatTemperature(this, maxTemp);
-//        String formattedMinTemperature = Utility.formatTemperature(this, minTemp);
-//        data.close();
-
-        // Perform this loop procedure for each Today widget
         for (int appWidgetId : appWidgetIds) {
-            // Find the correct layout based on the widget's width
             int widgetWidth = getWidgetWidth(appWidgetManager, appWidgetId);
             int defaultWidth = getResources().getDimensionPixelSize(R.dimen.widget_current_month_default_width);
             int largeWidth = getResources().getDimensionPixelSize(R.dimen.widget_current_month_large_width);
@@ -72,22 +60,18 @@ public class CurrentMonthWidgetIntentService extends IntentService {
             }
             RemoteViews views = new RemoteViews(getPackageName(), layoutId);
 
-            // Add the data to the RemoteViews
             views.setImageViewResource(R.id.widget_icon, R.drawable.ic_photo_camera);
-            // Content Descriptions for RemoteViews were only added in ICS MR1
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                 setRemoteContentDescription(views, monthResume.getMonth());
             }
-            views.setTextViewText(R.id.widget_description, monthResume.getMonth());
-            views.setTextViewText(R.id.widget_high_temperature, String.format(getResources().getString(R.string.widget_current_month_count), monthResume.getCount()));
-            views.setTextViewText(R.id.widget_low_temperature, WishUtils.getMonetaryValue(monthResume.getTotalValue()));
+            views.setTextViewText(R.id.widget_current_month, monthResume.getMonth());
+            views.setTextViewText(R.id.widget_wishes_count, String.format(getResources().getString(R.string.widget_current_month_count), monthResume.getCount()));
+            views.setTextViewText(R.id.widget_wishes_value, WishUtils.getMonetaryValue(monthResume.getTotalValue()));
 
-            // Create an Intent to launch MainActivity
             Intent launchIntent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
             views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
-            // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
@@ -133,12 +117,9 @@ public class CurrentMonthWidgetIntentService extends IntentService {
     }
 
     private int getWidgetWidth(AppWidgetManager appWidgetManager, int appWidgetId) {
-        // Prior to Jelly Bean, widgets were always their default size
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             return getResources().getDimensionPixelSize(R.dimen.widget_current_month_default_width);
         }
-        // For Jelly Bean and higher devices, widgets can be resized - the current size can be
-        // retrieved from the newly added App Widget Options
         return getWidgetWidthFromOptions(appWidgetManager, appWidgetId);
     }
 
@@ -147,7 +128,6 @@ public class CurrentMonthWidgetIntentService extends IntentService {
         Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
         if (options.containsKey(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) {
             int minWidthDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-            // The width returned is in dp, but we'll convert it to pixels to match the other widths
             DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
             return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, minWidthDp,
                     displayMetrics);

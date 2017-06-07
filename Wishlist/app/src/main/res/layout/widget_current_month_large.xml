@@ -35,7 +35,7 @@
             tools:src="@drawable/ic_photo_camera" />
 
         <TextView
-            android:id="@+id/widget_description"
+            android:id="@+id/widget_current_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -49,7 +49,7 @@
             tools:text="Clear" />
 
         <TextView
-            android:id="@+id/widget_low_temperature"
+            android:id="@+id/widget_wishes_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,14 +64,14 @@
             tools:text="$12,345"/>
 
         <TextView
-            android:id="@+id/widget_high_temperature"
+            android:id="@+id/widget_wishes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:gravity="end"
-            android:layout_toLeftOf="@id/widget_low_temperature"
-            android:layout_toStartOf="@id/widget_low_temperature"
+            android:layout_toLeftOf="@id/widget_wishes_value"
+            android:layout_toStartOf="@id/widget_wishes_value"
             android:layout_marginRight="@dimen/forecast_temperature_space"
             android:layout_marginEnd="@dimen/forecast_temperature_space"
             android:fontFamily="sans-serif-light"

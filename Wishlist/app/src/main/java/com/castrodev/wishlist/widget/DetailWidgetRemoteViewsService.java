@@ -125,7 +125,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                     setRemoteContentDescription(views, wish.getName());
                 }
                 views.setTextViewText(R.id.widget_name, wish.getName());
-                views.setTextViewText(R.id.widget_description, wish.getDueDate().toString());
+                views.setTextViewText(R.id.widget_current_month, wish.getDueDate().toString());
 
                 final Intent fillInIntent = new Intent(DetailWidgetRemoteViewsService.this, DetailActivity.class);
                 fillInIntent.putExtra(WISH_OBJECT, wish);
